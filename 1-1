@@ -1,0 +1,21 @@
+#include <stdio.h>
+#define N 10
+#define K 4
+int main(void)
+{	int r;
+	r = factorial(N) / (factorial(N - K)*factorial(K));
+	printf("Result is %d\n", r);
+	return r;
+}
+
+int factorial(int x)
+{
+	int z;
+	z = 1;
+	while (x > 0)
+	{
+		z = z*x;
+		x--;
+	}
+	return z;
+}
