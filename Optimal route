@@ -1,0 +1,42 @@
+
+#define _CRT_SECURE_NO_WARNINGS 
+#include <stdio.h> 
+#include <math.h> 
+int main()
+{
+	int p = 0;
+	printf("Input price by autoroad\n");
+	scanf("%d", &p); //цена по автодороге 
+	printf("price by autoroad %d\n\n", p);
+
+	int g = 0;
+	printf("Input price by railroad\n");
+	scanf("%d", &g); //цена по ж/д 
+	printf("price by railroad %d\n\n", g);
+	
+	int b = 0;
+	printf("Input distance between B and A\n");
+	scanf("%d", &b); //расстояние от B до A 
+	printf("distance between B and A %d\n\n", b);
+
+	int alfa = 0;
+	printf("Input angle between A and C\n");
+	scanf("%d", &alfa); //угол в градусах 
+	printf("angle between A and C %d\n\n", alfa);
+
+	double alfa_rad = alfa*3.14 / 180;//перевод угла в радианы для косинуса 
+
+	double d1 = ((p / g) ^ 2) - 1;//коэф d1 
+	double d2 = cos(alfa_rad)*((-1) * 2 * b* p ^ 2 / g ^ 2);//коэф d2 
+	double d3 = cos(alfa_rad)*cos(alfa_rad)*(4 * (b ^ 2)* p ^ 2 / (g ^ 2 * 4));//коэф d3 
+
+																			   //тут считать дескриминат 
+	double y1 = ((-1 * d2) + sqrt(b*b - 4 * d1*d3)) / (2 * d1);//y1 первая стационар точка 
+	if (y1<0)
+	{ }
+	double y2 = ((-1 * d2) - sqrt(b*b - 4 * d1*d3)) / (2 * d1);//y2 вторая стационар точка 
+
+	
+
+
+}
