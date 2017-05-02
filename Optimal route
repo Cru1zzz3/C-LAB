@@ -2,41 +2,108 @@
 #define _CRT_SECURE_NO_WARNINGS 
 #include <stdio.h> 
 #include <math.h> 
+#define p 20
+#define g 10
+#define b 100
+#define alfa  45
 int main()
 {
-	int p = 0;
+	/* int p = 0;
 	printf("Input price by autoroad\n");
-	scanf("%d", &p); //цена по автодороге 
+	scanf("%d", &p); //цена по автодороге */
+
 	printf("price by autoroad %d\n\n", p);
 
-	int g = 0;
+	/*int g = 0;
 	printf("Input price by railroad\n");
-	scanf("%d", &g); //цена по ж/д 
+	scanf("%d", &g); //цена по ж/д */
+
 	printf("price by railroad %d\n\n", g);
-	
-	int b = 0;
+
+	/*int b = 0;
 	printf("Input distance between B and A\n");
-	scanf("%d", &b); //расстояние от B до A 
+	scanf("%d", &b); //расстояние от B до A */
+
 	printf("distance between B and A %d\n\n", b);
 
-	int alfa = 0;
+	/*int alfa = 0;
 	printf("Input angle between A and C\n");
-	scanf("%d", &alfa); //угол в градусах 
+	scanf("%d", &alfa); //угол в градусах
+	*/
+
 	printf("angle between A and C %d\n\n", alfa);
 
 	double alfa_rad = alfa*3.14 / 180;//перевод угла в радианы для косинуса 
 
-	double d1 = ((p / g) ^ 2) - 1;//коэф d1 
-	double d2 = cos(alfa_rad)*((-1) * 2 * b* p ^ 2 / g ^ 2);//коэф d2 
-	double d3 = cos(alfa_rad)*cos(alfa_rad)*(4 * (b ^ 2)* p ^ 2 / (g ^ 2 * 4));//коэф d3 
+	double k = (2 * b*cos(alfa_rad));
+	double l = (-p / g);
+	double n = ((k*p) / (2 * g));
+	double m = b*b;
 
-																			   //тут считать дескриминат 
-	double y1 = ((-1 * d2) + sqrt(b*b - 4 * d1*d3)) / (2 * d1);//y1 первая стационар точка 
-	if (y1<0)
-	{ }
-	double y2 = ((-1 * d2) - sqrt(b*b - 4 * d1*d3)) / (2 * d1);//y2 вторая стационар точка 
-
-	
+	double d1 = (l*l - 1);//коэф d1 
+	double d2 = (2 * n*l + k);//коэф d2 
+	double d3 = (n*n - m);//коэф d3 
 
 
+	//тут считать дискриминат 
+	double D = (d2*d2 - 4 * d1*d3);
+	if (D < 0)
+	{
+		printf("Value of discriminant bellow zero");
+		return -1;
+	}
+
+	double y1 = (((-1 * d2) + sqrt(D)) / (2 * d1));//y1 первая стационар точка 
+	double y2 = (((-1 * d2) - sqrt(D)) / (2 * d1));//y2 вторая стационар точка 
+	if ((y1 && y2) < 0)
+	{
+		printf("All of y bellow zero");
+		return -1;
+	}
+
+
+	double x1 = (p*(2 * b* cos(alfa_rad) - 2 * y1) / (2 * g));
+	double x2 = (p*(2 * b* cos(alfa_rad) - 2 * y2) / (2 * g));
+
+	double h1 = ((-p) / (2 * x1));
+	double h2 = ((-p) / (2 * x2));
+
+	double h11 = ((g) / (2 * y1 - k));
+	double h22 = ((g) / (2 * y2 - k));
+
+
+
+	printf(" %f, ", x1);
+	printf(" %f, ", y1);
+
+	if ((x1 < 0) || (y1 < 0))
+	{
+		printf("- isn't suitable");
+	}
+	printf("\n");
+
+
+	printf(" %f, ", x2);
+	printf(" %f, ", y2);
+
+	if ((x2 < 0) || (y2 < 0))
+	{
+		printf("- isn't suitable", y1);
+	}
+	printf("\n\n");
+
+    if((x1>b*cos(alfa_rad)-y1) && (y1< b* cos(alfa_rad)))
+	{
+		printf("First point is correct\n");
+		return 0;
+	}
+
+	if ((x2>b*cos(alfa_rad) - y1) && (y2< b* cos(alfa_rad)))
+	{
+		printf("Second point is correct\n\n");
+		printf("Lenght of highway is %lf, length of railroad is %lf", x2,y2);
+			printf("\n\n");
+		return 0;
+	}
 }
+
