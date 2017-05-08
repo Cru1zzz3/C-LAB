@@ -3,8 +3,8 @@
 #include <conio.h>
 #include <math.h>
 
-#define N 3
-#define M 3
+#define N 4
+#define M 4
 
 
 void input(int (*mat)[N])
@@ -17,6 +17,7 @@ void input(int (*mat)[N])
 			scanf("%d",&mat[i][j]);
 		}
 	}
+	printf("\n");
 }
 
 void output(int  (*mat)[N])
@@ -30,6 +31,7 @@ void output(int  (*mat)[N])
 		}
 		printf("\n");
 	}
+	printf("\n");
 	
 }
 
@@ -38,6 +40,8 @@ int main(void)
 	int matrix1[N][M],matrix2[N][M],temp[N];
 	int i,j,min,k;
 	input(matrix1);
+	printf("Start matrix:\n");
+	output(matrix1);
 	for(i=0;i<N;i++)
 	{
 		for(j=0;j<M;j++)
@@ -62,6 +66,7 @@ int main(void)
 			else i++;
 			
 		}
+	printf("Final matrix:\n");
 	output(matrix2);
 	return 0;
 }
