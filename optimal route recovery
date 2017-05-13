@@ -1,0 +1,151 @@
+#define _CRT_SECURE_NO_WARNINGS 
+#include <stdio.h> 
+#include <math.h> 
+
+int main(void) 
+{ 
+	int g,b,alfa,s;
+	double alfa_rad,x1,x2,y1,y2,D;
+	double k,l,m,n;
+	double d1,d2,d3;
+	double h1,h2,h11,h22;
+int p = 0; 
+b: 
+printf("Input price by autoroad\n"); 
+scanf("%d", &p); //цена по автодороге 
+
+if (p == 0) 
+{ 
+printf("Price can't be equal zero \n"); 
+goto b; 
+} 
+
+
+
+ 
+c: 
+printf("Input price by railroad\n"); 
+scanf("%d", &g); //цена по ж/д 
+
+if (g == 0) 
+{ 
+printf("Price can't be equal zero \n"); 
+goto c; 
+} 
+
+if (g>p)
+	{
+		printf("Price by railroad more expensive than by autoroad\n\n");
+		goto b;
+	}
+
+
+b = 0; 
+printf("Input distance between B and A\n"); 
+scanf("%d", &b); //расстояние от B до A 
+
+ alfa = 0; 
+a: 
+printf("Input angle between A and C\n"); 
+scanf("%d", &alfa); //угол в градусах 
+
+if (alfa == 90) 
+{ 
+printf("Angle should be smaller then 90 \n"); 
+goto a; 
+} 
+printf("\n");
+
+
+
+
+alfa_rad = alfa*3.14 / 180;//перевод угла в радианы для косинуса 
+
+ k = (2 * b*cos(alfa_rad)); 
+ l = (-p / g); 
+ n = ((k*p) / (2 * g)); 
+ m = b*b; 
+
+ d1 = (l*l - 1);//коэф d1 
+ d2 = (2 * n*l + k);//коэф d2 
+ d3 = (n*n - m);//коэф d3 
+
+
+//тут считать дискриминат 
+D = (d2*d2 - 4 * d1*d3); 
+if (D < 0) 
+{ 
+printf("Value of discriminant bellow zero"); 
+return -1; 
+} 
+
+ y1 = (((-1 * d2) + sqrt(D)) / (2 * d1));//y1 первая стационар точка 
+ y2 = (((-1 * d2) - sqrt(D)) / (2 * d1));//y2 вторая стационар точка 
+if ((y1 && y2) < 0) 
+{ 
+printf("All of y bellow zero"); 
+return -1; 
+} 
+
+
+x1 = (p*(2 * b* cos(alfa_rad) - 2 * y1) / (2 * g)); 
+ x2 = (p*(2 * b* cos(alfa_rad) - 2 * y2) / (2 * g)); 
+
+ h1 = ((-p) / (2 * x1)); 
+ h2 = ((-p) / (2 * x2)); 
+
+h11 = ((g) / (2 * y1 - k)); 
+h22 = ((g) / (2 * y2 - k)); 
+
+
+printf("First point is ");
+
+printf(" %f, ", x1); 
+printf(" %f, ", y1); 
+
+if ((x1 < 0) || (y1 < 0)) 
+{ 
+printf("- isn't suitable"); 
+} 
+printf("\n"); 
+
+printf("Second point is ");
+
+printf(" %f, ", x2); 
+printf(" %f, ", y2); 
+
+if ((x2 < 0) || (y2 < 0)) 
+{ 
+printf("- isn't suitable", y1); 
+} 
+printf("\n\n"); 
+
+if ((x1>b*cos(alfa_rad) - y1) && (y1< b* cos(alfa_rad))) 
+{ 
+printf("First point is correct\n"); 
+goto g; 
+} 
+
+if ((x2>b*cos(alfa_rad) - y1) && (y2< b* cos(alfa_rad))) 
+{ 
+printf("Second point is correct\n\n"); 
+printf("Lenght of highway is %.0f, length of railroad is %.0f", x2, y2); 
+printf("\n\n"); 
+goto g; 
+} 
+g: 
+s = 0;
+printf("For exit press 0 or press another key to restart \n"); 
+
+
+  
+scanf("%d", &s); 
+if (s!=0)
+{printf("\n\n");
+goto b;
+}
+else 
+{ 
+return 0; // завершение работы программы 
+} 
+}
