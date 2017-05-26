@@ -1,19 +1,17 @@
 #include <stdio.h>
-#include <math.h>
-#define N 255 //макрос N с размерностью массива
-#define L 'E' // макрос задающий заглавную букву
-#define l 'e' // макрос задающий прописную букву
+#define N 255 
+#define L 'E'
+#define l 'e' 
 int i, k;
 	i,k = 0;
-char string[N]; //объявление массива(символов) как глобальной переменной
-int input() //ф-ция заполнения массива значениями
+char string[N]; 
+int input() 
 {
 	printf("Input string:\n");
 	gets(string);
 	return 0;
 }
-
-int main()//обработка массива согласно условию задания
+int main()
 {
 	input();	
 	if ((string[i] == L || string[i] == l))
@@ -26,8 +24,7 @@ int main()//обработка массива согласно условию з
 	output();
 	return 0;
 }
-
-int output()//ф-ция вывода на экран значений массива
+int output()
 {
 	printf("\n");
 	printf("Amount of words, which starting with letter %c is: %d\n",l,k);
