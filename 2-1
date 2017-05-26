@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <math.h>
 #define N 255 //макрос N с размерностью массива
@@ -25,18 +24,13 @@ int main()//обработка массива согласно условию з
 			k++;
 	}
 	output();
-	printf("Amount of words, which starting with letter %c is: %d\n",l,k);
-	
 	return 0;
 }
 
 int output()//ф-ция вывода на экран значений массива
 {
-	printf("%s", "Array: ");
-	for (i = 0; string[i] != '\0'; i++)
-	{
-		printf("%c", string[i]);
-	}
+	printf("\n");
+	printf("Amount of words, which starting with letter %c is: %d\n",l,k);
 	printf("\n");
 	return 0;
 }
