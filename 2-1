@@ -1,18 +1,20 @@
-#include <stdio.h>
+ #include <stdio.h>
 #define N 255 
 #define L 'E'
 #define l 'e' 
-int i, k;
-	i,k = 0;
-char string[N]; 
-int input() 
+char string[N];
+
+void output(int k);
+
+void input() 
 {
 	printf("Input string:\n");
 	gets(string);
-	return 0;
 }
+
 int main()
-{
+{	int i, k;
+	i= k = 0;
 	input();	
 	if ((string[i] == L || string[i] == l))
 		k++;
@@ -21,13 +23,12 @@ int main()
 		if ((string[i] == L || string[i] == l) && (string[i-1] == ' '))
 			k++;
 	}
-	output();
+	output(k);
 	return 0;
 }
-int output()
+void output(int k)
 {
 	printf("\n");
 	printf("Amount of words, which starting with letter %c is: %d\n",l,k);
 	printf("\n");
-	return 0;
 }
