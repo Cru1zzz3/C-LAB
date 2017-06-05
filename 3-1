@@ -1,38 +1,47 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-#define N 3
+#define N 5
 #define M 3
 
-int main(void)
-{   int i,j,k,min;
-	int matrix1[N][M];
-	int matrix2[N][M];
-	int temp[N];
+void read_matrix(int (*matrix)[N]);
+void print_matrix(int (*matrix)[N]);
+
+void read_matrix(int (*matrix)[M])
+{   int i,j;
 	FILE *fin;
-	FILE *fout;
 	fin=fopen("input.txt","rt");
 	if(fin == NULL)
-		{   perror ("FATAL ERROR");
-			return -1;
+		{   perror ("Error open file");
+		
 		}
 	for(i=0; i!=N;i++)
 	{
 		for(j=0; j!= M;j++)
 		{   
-			fscanf(fin,"%d",&matrix1[i][j]);
+			fscanf(fin,"%d",&matrix[i][j]);
 		}
 	}
-	fclose(fin);	
+	fclose(fin);
+}
 
+int main(void)
+{   int i,j,k,min;
+	int matrix1[N][M];
+	int matrix2[N][M];
+	int temp[M];
+
+	read_matrix(matrix1);
+		
 	for(i=0;i!=N;i++)
 		{
 			for(j=0;j!=M;j++)
 			matrix2[i][j]=matrix1[i][j];
 		}
+	
 	min=matrix2[0][0];
 	i=1;
-
-	for(k=0;k!=N;k++)
+	
+	for(k=1;k!=N;k++)
 		{
 			if(matrix2[i][0]<matrix2[i-1][0])
 				{
@@ -47,22 +56,25 @@ int main(void)
 				}
 			else i++;
 		}
-	
-	fout=fopen("output.txt","w");
+	print_matrix(matrix2);
+	return 0;
+	}
+
+void print_matrix(int (*matrix)[M])
+{   int i,j;
+	FILE *fout;
+	fout=fopen("output.txt","wt");
 	if(fout == NULL)
 	{	
 		perror("Error open file");
-		return -1;
 	}
 	for(i=0;i!=N;i++)
 		{
 			for(j=0;j!=M;j++)
 			{
-				fprintf(fout,"%d ",matrix2[i][j]);
+				fprintf(fout,"%d ",matrix[i][j]);
 			}
 			fprintf(fout,"\n");
 		}
 	fclose(fout);
-	return 0;
-	}
-
+}
