@@ -1,0 +1,25 @@
+#include <stdio.h> 
+int Enterarray{} 
+{ 
+char s[100]; 
+int i,k=0; 
+puts("Enter a string:" ); 
+gets(s); 
+} 
+int Endprog(){ 
+printf("/nNumber=%d",k); 
+getch(); 
+} 
+int main(){ 
+Enterarray(s) 
+int i,k=0; 
+for(i=0;s[i]!='\0';i++) 
+{ 
+if(s[i]=='.'||s[i]==','|| s[i]=='?'||s[i]=='!'||s[i]==':'||s[i]==';'||s[i]=='-') 
+{ 
+k++; 
+printf("%c",s[i]); 
+}} 
+Endprog(); 
+return 0; 
+}
