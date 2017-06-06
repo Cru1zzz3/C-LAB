@@ -1,0 +1,39 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <malloc.h>
+#include <stdlib.h>
+
+typedef struct input_value{ 
+	int row;
+	int col;
+};
+
+int input(int p);
+
+int input()
+{
+	int i,j,n,m;
+	
+	FILE *f;
+	f=fopen("input.txt","rt");
+	
+	
+
+	
+	fclose(f);
+}
+
+void main()
+{
+	int i,j,n,m;
+	int *p;
+	struct input_value
+
+	n input_value5;
+	
+
+	input();
+
+	p=(int*)malloc(m*n*sizeof(int));
+	
+}
