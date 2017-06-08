@@ -1,0 +1,56 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <malloc.h>
+#include <stdlib.h>
+
+void main (void)
+{
+	int *p,*start;
+	int i,j;
+	char c;
+	int k;
+	int t;
+	int n,m;
+	FILE *F;
+	i=0;
+	c=0;
+	
+
+	
+	F=fopen("input.txt","rt");
+	if (F == NULL)
+		perror("Loading file error");
+
+	//fscanf(F,"%d %d",&n,&m);
+	fscanf(F,"%d %d", &n,&m);
+	p=(int*)malloc(n*m*sizeof(int));
+	start=p;
+	
+
+	
+	for (i=0;i<n;i++)
+	{
+		for (j=0;j<m;j++)
+		{
+			fscanf(F,"%d",(p+i*m+j));
+		}
+	}
+	fclose(F);
+	
+	for (i=0;i!=n;i++)
+	{
+		k=0;
+		t=0;
+		for (j=0;j!=m;j++)
+		{
+			printf("%d ",*(p+(2*m+t)));
+			t--;	
+		}
+		printf("\n");
+		p++
+	}
+
+	p=0;
+	free(p);
+
+};
