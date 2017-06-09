@@ -1,73 +1,54 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-#include <malloc.h>
 #include <stdlib.h>
 
 void main (void)
 {
-	int *p,*start;
+	int *p;
 	int i,j;
-	char c;
+	
 	int k;
-	int t;
+	
 	int n,m;
-	int x;
 	FILE *F;
-	i=0;
-	c=0;
-	
-
-	
+	i=0;		
 	F=fopen("input.txt","rt");
 	if (F == NULL)
 		perror("Loading file error");
-
-	//fscanf(F,"%d %d",&n,&m);
-	fscanf(F,"%d",&n);
-	p=(int*)malloc(n*n*sizeof(int));
-	start = p;
 	
-	k=0;
+	fscanf(F,"%d %d",&n,&m);
+	p=(int*)malloc(n*m*sizeof(int));
 	
-	for (i=0;i<n;i=i++)
-	{
-		for (j=0;j!=n;j++)
-		{
-			fscanf(F,"%d",(p+j*n+k));
-			printf("%d ",*(p+j*n+k));
-		}
-
-		
-		k++;
-		i++;
-		
-	if (i<n)
-	{for (j=n;j>=0;j--)
-		{
-			fscanf(F,"%d",(p+j*n+k));
-			printf("%d ",*(p+j*n+k));
-		}
-		
-		k++;
-	}
-	else{};
-		
-	}
-	fclose(F);
-
-	printf("\n");
-
-	for (i=0;i<n;i++)
+	k=0;	
+	while(!feof(F))
 	{
 		for (j=0;j<n;j++)
 		{
-			printf("%d ",*(p+i*n+j));
+			fscanf(F,"%d",(p+j*m+k));
+			
+		}		
+		k++;
+		i++;
+		
+	if (!feof(F))
+	{
+		for (j=n-1;j>=0;j--)
+			fscanf(F,"%d",(p+j*m+k));
+		k++;
+	}
+	else{};		
+	}
+	printf("\n");
+	fclose(F);
+	
+	for (i=0;i<n;i++)
+	{
+		for (j=0;j<m;j++)
+		{
+			printf("%d ",*(p+i*m+j));
 		}
 		printf("\n");
 	}
-
 	p=0;
 	free(p);
 
 };
-
