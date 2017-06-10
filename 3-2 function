@@ -1,1 +1,68 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <stdlib.h>
+#include <malloc.h>
+int input(int *p,int *x, int *y);
+void output(int *p,int n, int m);
 
+int input (int *p,int *x, int *y)
+{
+	int j,k,n,m;
+	FILE *F;
+	n=*x;
+	m=*y;
+	k=0;
+	F=fopen("input.txt","r");
+	
+	
+	fscanf(F,"%d %d",&n,&m);
+	*p=(int)realloc(p,n*m*sizeof(int));
+	while(!feof(F))
+	{
+		for (j=0;j<n;j++)
+			fscanf(F,"%d",(p+j*m+k));
+		k++;
+				
+	if (!feof(F))
+	{
+		for (j=n-1;j>=0;j--)
+			fscanf(F,"%d",(p+j*m+k));
+			
+		k++;
+	}
+	else{};		
+	}
+	fclose(F);
+	*x=n;
+	*y=m;
+}
+
+
+void main (void)
+{
+	int *p;
+	int n,m;
+	n=0;
+	p=(int*)malloc(sizeof(int));
+	m=0;
+	
+	input(p,&n,&m);
+	output(p,n,m);
+	free(p);
+}
+
+void output(int *p, int n, int m)
+{   int i,j;
+	printf("Vertical snake sort: \n");
+
+	for (i=0;i<n;i++)
+	{
+		for (j=0;j<m;j++)
+		{
+			printf("%d ",*(p+i*m+j));
+		}
+		printf("\n");
+	}
+	
+}
+		
