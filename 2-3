@@ -1,11 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
-#include <conio.h>
 #include <math.h>
-
 #define N 4
 #define M 4
-
 
 void input(int (*mat)[N])
 {   int i,j;
@@ -31,13 +28,13 @@ void output(int  (*mat)[N])
 		}
 		printf("\n");
 	}
-	printf("\n");
-	
+	printf("\n");	
 }
+
 
 int main(void)
 {
-	int matrix1[N][M],matrix2[N][M],temp[N];
+	int matrix1[N][M],matrix2[N][M],temp[M];
 	int i,j,min,k;
 	input(matrix1);
 	printf("Start matrix:\n");
@@ -48,24 +45,22 @@ int main(void)
 			matrix2[i][j]=matrix1[i][j];
 	}
 	min=matrix2[0][0];
-	
 	i=1;
 	for(k=0;k<N;k++)
-		{
+	{
 		 if(matrix2[i][0]<matrix2[i-1][0])
-				{
-					k=0;
-					for(j=0;j<M;j++)
-						temp[j]=matrix2[i][j];
-					for(j=0;j<M;j++)
-						matrix2[i][j]=matrix2[i-1][j];
-					for(j=0;j<M;j++)
-						matrix2[i-1][j]=temp[j];
-					i=1;
-				}
-			else i++;
-			
-		}
+			{
+				k=0;
+				for(j=0;j<M;j++)
+					temp[j]=matrix2[i][j];
+				for(j=0;j<M;j++)
+					matrix2[i][j]=matrix2[i-1][j];
+				for(j=0;j<M;j++)
+					matrix2[i-1][j]=temp[j];
+				i=1;
+			}
+		  else i++;
+	}
 	printf("Final matrix:\n");
 	output(matrix2);
 	return 0;
