@@ -1,18 +1,21 @@
+#define _CRT_SECURE_NO_WARNINGS 
 #include <stdio.h> 
-int Enterarray{} 
+#define N 100 
+char s[N]; 
+
+void Endprog(void); 
+
+char Enterarray(void) 
 { 
-char s[100]; 
-int i,k=0; 
 puts("Enter a string:" ); 
 gets(s); 
 } 
-int Endprog(){ 
-printf("/nNumber=%d",k); 
-getch(); 
-} 
-int main(){ 
-Enterarray(s) 
+
+int main() 
+{ 
 int i,k=0; 
+Enterarray(); 
+
 for(i=0;s[i]!='\0';i++) 
 { 
 if(s[i]=='.'||s[i]==','|| s[i]=='?'||s[i]=='!'||s[i]==':'||s[i]==';'||s[i]=='-') 
@@ -20,6 +23,11 @@ if(s[i]=='.'||s[i]==','|| s[i]=='?'||s[i]=='!'||s[i]==':'||s[i]==';'||s[i]=='-')
 k++; 
 printf("%c",s[i]); 
 }} 
-Endprog(); 
+Endprog(k); 
 return 0; 
+} 
+
+void Endprog(int k) 
+{ 
+printf("\nNumber of signs = %d\n",k); 
 }
