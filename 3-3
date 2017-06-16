@@ -8,7 +8,46 @@ typedef struct
 {
 	char name[30];
 	int salary[MAX_MONTHS];
+	int sumSalary;
+	int averageSalary;
 } TPerson;
+
+void histogram(TPerson *persons,int personCount)
+	{
+		int i,k,n;
+		
+		for (i = 0; i<personCount; i++)
+		{   printf("%s ", persons[i].name);
+			printf("%d ",persons[i].averageSalary);
+			k=persons[i].averageSalary/100;
+			for (n = 0; n < k; n++)
+			{
+				printf("$");
+			}
+			printf("\n");
+		}
+	}
+
+void sort(TPerson *persons,int personCount)
+{ int i=0,j=0,tmp=0;
+	for (i = 0; i < personCount; i++) 
+		for (j = i + 1; j < personCount; j++) 
+		{ 
+			if (persons[i].sumSalary < persons[j].sumSalary) 
+				{ 
+					tmp = persons[i].sumSalary; 
+					persons[i].sumSalary = persons[j].sumSalary; 
+					persons[j].sumSalary = tmp; 
+				} 
+		} 
+}
+
+void median(TPerson *persons,int personCount)
+	{   int sr,imedian;
+		sr=(personCount/2);
+		imedian=persons[sr].sumSalary;
+		printf("\nMedian is: %d\n",imedian);
+	}
 
 //returns month count from Jan 1980
 
@@ -25,21 +64,34 @@ int get_month(char *date)
 	return (iYear-1980)*12+iMonth;
 }
 
+
+
 void main (void)
 {
 	FILE *F;
 	char s[200];
 	char name[30], date[20];
-	int salary;
+	int salary,commonSalary = 0,halfcommonSalary;
+	int tmp;
+	int topTen;
+	int sr;
+	int tenPercent;
+	int gini1,gini2,gini3;
 	char *semicolon1, *semicolon2;
-	
+	int index_median;
 	TPerson *persons = NULL;
 	int personCount=0;
+	int decilCoef=0;
 	int i;
+	int max = 0;
+	int topDecil=0,lowDecil=0;
+	int l = 0,k = 0,j = 0;
+	
 	int personFound;
 	int maxMonth=0, minMonth=99999;
 	int month;
-	
+		
+
 	F=fopen("salary.csv","rt");
 
 	//get range
@@ -87,24 +139,113 @@ void main (void)
 			if (strcmp(name,persons[i].name)==0)
 			{
 				persons[i].salary[get_month(date)-minMonth] += salary;
+				/// sum of salary
+				persons[i].sumSalary  += salary;
 				personFound=1;
 				break;
-			}
-	
+			}	
 	//if person not found
 	if(!personFound)
 	{
 		//add person to array
 		persons=(TPerson*)realloc(persons,(personCount+1)*sizeof(TPerson));
 		memset(persons[personCount].salary,0,sizeof(persons[personCount].salary));
+		persons[personCount].sumSalary=0;
+		persons[personCount].averageSalary=0;
 		persons[personCount].salary[get_month(date)-minMonth]=salary;
 		strcpy(persons[personCount].name,name);
 		personCount++;
 		}
-	printf("%s",s);
 	}
+
+	///averageSalary + commonSalary  
+		for (i=0;i<personCount;i++)
+	{   persons[i].averageSalary=(persons[i].sumSalary/MAX_MONTHS);
+		commonSalary+=persons[i].sumSalary;
+	}
+
+		
+
+    /// bubblesort  
+	sort(persons,personCount);
+
+	///Вывод отсортированного массива на экран
+	for (i=0;i<personCount;i++)
+	printf("%d\n", persons[i].sumSalary);
+
+	/// Медиана 
+	median(persons,personCount);
+		
+	/// decil
+	tenPercent=(personCount*0.1);
+	topTen=(personCount-tenPercent);
+	for (i=0;i<tenPercent;i++)
+	{
+		topDecil+=persons[i].sumSalary;
+	}	
+	for (i=topTen;i<personCount;i++)
+	{
+		lowDecil+=persons[i].sumSalary;
+	}
+
+	
+	decilCoef=topDecil/lowDecil;
+	printf("Decil coefficient is: %d\n",decilCoef);
+
+	/// koeficient jini
+	/*	
+for (i = 0; i < personCount; i++)
+{
+
+}
+// Sum = sum1 = commonSalary
+ topTen=(persons[0].sumSalary) / 10; /// общий доход 
+  halfcommonSalary = commonSalary/2; /// сумма пополам 
+
+for (i = 0; i < personCount; i++) {
+	if (persons[i].sumSalary < topTen) {
+l++;
+}
+	if (persons[i].sumSalary > topTen && persons[i].sumSalary < halfcommonSalary) {
+k++;
+}
+if (persons[i].sumSalary > halfcommonSalary) {
+j++;
+}
+}
+
+printf("Max = %d\n",j);
+printf("Medium = %d\n", k);
+printf("Min = %d\n", l);
+
+/*
+for (i = 0; i < j; i++) {
+L += cortres[i];
+}
+for (i = 0; i < k; i++) {
+K += cortres[i+j];
+}
+for (i = 0; i < l; i++) {
+J += cortres[i+k+j];
+}
+
+gini1 = L;
+gini2 = K;
+gini3 = J;
+gini1 =gini1 / Sum;
+gini2 = gini2 / Sum;
+    gini3 =gini3 / Sum;
+high =(float)j /personCount;
+mid = (float)k /personCount;
+low = (float)l / personCount;
+KJ = 1-2 * (gini1*high + (gini1+gini2)*mid + low) + (gini1*high + gini2*mid + gini3*low);
+
+printf("Koefficient Jini = %f\n", KJ);
+*/
+
+	histogram(persons,personCount);
+
 	
 	fclose(F);
 	getchar();
 	}
-
