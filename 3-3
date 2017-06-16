@@ -12,22 +12,6 @@ typedef struct
 	int averageSalary;
 } TPerson;
 
-void histogram(TPerson *persons,int personCount)
-	{
-		int i,k,n;
-		
-		for (i = 0; i<personCount; i++)
-		{   printf("%s ", persons[i].name);
-			printf("%d ",persons[i].averageSalary);
-			k=persons[i].averageSalary/100;
-			for (n = 0; n < k; n++)
-			{
-				printf("$");
-			}
-			printf("\n");
-		}
-	}
-
 void sort(TPerson *persons,int personCount)
 { int i=0,j=0,tmp=0;
 	for (i = 0; i < personCount; i++) 
@@ -49,6 +33,50 @@ void median(TPerson *persons,int personCount)
 		printf("\nMedian is: %d\n",imedian);
 	}
 
+void decil(TPerson *persons,int personCount)
+	{   int i,tenPercent,topTen,topDecil=0,lowDecil=0,decilCoef;
+		tenPercent=(personCount*0.1);
+		topTen=(personCount-tenPercent);
+		for (i=0;i<tenPercent;i++)
+			{
+				topDecil+=persons[i].sumSalary;
+			}	
+		for (i=topTen;i<personCount;i++)
+			{
+				lowDecil+=persons[i].sumSalary;
+			}
+		decilCoef=topDecil/lowDecil;
+		printf("Decil coefficient is: %d\n",decilCoef);
+	}
+
+void table(TPerson *persons,int personCount)
+{   
+	int i;
+	printf("\n");
+	printf("\t\t\tName:\t\tSumSalary:\tAverageSalary:\n");
+	for (i = 0; i<personCount; i++)
+		{   printf("%30s", persons[i].name);
+			printf("%15d", persons[i].sumSalary);
+			printf("%15d",persons[i].averageSalary);
+			printf("\n");
+		}
+}
+
+void histogram(TPerson *persons,int personCount)
+	{
+		int i,k,n;
+				for (i = 0; i<personCount; i++)
+		{   printf("%s ", persons[i].name);
+			printf("%d ",persons[i].averageSalary);
+			k=persons[i].averageSalary/100;
+			for (n = 0; n < k; n++)
+			{
+				printf("$");
+			}
+			printf("\n");
+		}
+	}
+
 //returns month count from Jan 1980
 
 int get_month(char *date)
@@ -64,29 +92,22 @@ int get_month(char *date)
 	return (iYear-1980)*12+iMonth;
 }
 
-
-
 void main (void)
 {
 	FILE *F;
+	TPerson *persons = NULL;
 	char s[200];
 	char name[30], date[20];
-	int salary,commonSalary = 0,halfcommonSalary;
+	int salary,commonSalary=0,halfcommonSalary;
 	int tmp;
-	int topTen;
 	int sr;
-	int tenPercent;
+	
 	int gini1,gini2,gini3;
 	char *semicolon1, *semicolon2;
-	int index_median;
-	TPerson *persons = NULL;
 	int personCount=0;
-	int decilCoef=0;
 	int i;
 	int max = 0;
-	int topDecil=0,lowDecil=0;
 	int l = 0,k = 0,j = 0;
-	
 	int personFound;
 	int maxMonth=0, minMonth=99999;
 	int month;
@@ -103,7 +124,6 @@ void main (void)
 		
 
 		semicolon1=strchr(s,';');
-
 		semicolon2=strchr(semicolon1+1, ';');
 		strncpy(date,semicolon1+1,semicolon2-semicolon1);
 		date[semicolon2-semicolon1]=0;
@@ -168,29 +188,13 @@ void main (void)
 
     /// bubblesort  
 	sort(persons,personCount);
-
+/*
 	///Вывод отсортированного массива на экран
 	for (i=0;i<personCount;i++)
-	printf("%d\n", persons[i].sumSalary);
-
-	/// Медиана 
-	median(persons,personCount);
-		
-	/// decil
-	tenPercent=(personCount*0.1);
-	topTen=(personCount-tenPercent);
-	for (i=0;i<tenPercent;i++)
-	{
-		topDecil+=persons[i].sumSalary;
-	}	
-	for (i=topTen;i<personCount;i++)
-	{
-		lowDecil+=persons[i].sumSalary;
-	}
+	printf("%d\n", persons[i].sumSalary); */
 
 	
-	decilCoef=topDecil/lowDecil;
-	printf("Decil coefficient is: %d\n",decilCoef);
+	
 
 	/// koeficient jini
 	/*	
@@ -243,9 +247,14 @@ KJ = 1-2 * (gini1*high + (gini1+gini2)*mid + low) + (gini1*high + gini2*mid + gi
 printf("Koefficient Jini = %f\n", KJ);
 */
 
-	histogram(persons,personCount);
+	table(persons,personCount);
 
+	median(persons,personCount);
+
+	decil(persons,personCount);
 	
 	fclose(F);
 	getchar();
+	}
+
 	}
