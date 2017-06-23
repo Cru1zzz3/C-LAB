@@ -1,161 +1,58 @@
 #include <stdio.h>
-#include <stdlib.h> 
-#include <time.h> 
-#include<memory.h>
-#define N 100 
-#define steps 10
-
-int eat(int *C);
-
-const int foodCount = 100;//кол-во еды 
-const double moveEnergy = 1;
-int unitCount = 100;//кол-во попугаев
-int max, min;
-int *commonpower, deg;
-int CountStep = 0;//кол-во шагов
+#include <time.h>
+#include <stdlib.h>
+#include <malloc.h>
+#include <string.h>
 
 
+#define foodCount 100
 
-typedef struct //объявление структуры 
-{
-	int HP;
-	int x, y;
+typedef struct {
+	int hp;
 	int power;
-} TUnit;
+	int position[2];  
+} TDove;
+
+typedef struct {
+	int hp;
+	int power;
+	int position[2];  
+} THawk;
+
+int bornDove(TDove *doves,int doveCount){
+	doves=(TDove*)realloc(doves,(doveCount+1)*sizeof(TDove));
+	memset(doves[doveCount].hp,100,sizeof(doves[doveCount].hp));
+	doveCount++;
+	return doveCount;
+}
+
+void bornHawk(THawk *hawks,int *hawkCount){
+	hawks=(THawk*)realloc(hawks,(*hawkCount+1)*sizeof(THawk));
+	*hawkCount++;
+}
 
 
-typedef struct //объявление структуры 
+
+void deathDove(TDove *doves,int *doveCount){
+	doves=(TDove*)realloc(doves,(*doveCount-1)*sizeof(TDove));
+	*doveCount--;
+}
+
+void deathHawk(THawk *hawks,int *hawkCount){
+	hawks=(THawk*)realloc(hawks,(*hawkCount-1)*sizeof(THawk));
+	*hawkCount--;
+}
+
+void main(void)
 {
-	int x, y;
-}TFood;
-
-TUnit *units = NULL;
-TFood *food;
-
-int random() {
-	int r = 1;
-	r = 1 + rand() % (N - 1);
-	return r;
-}
-
-
-int walk() {
+	TDove *doves=NULL;
+	THawk *hawkp=NULL;
 	int i;
-	for (i = 0; i < unitCount; i++) {
-		units[i].x = units[i].x +(-2 + rand() % 2);
-		units[i].y = units[i].y +(-2 + rand() % 2);
-		units[i].HP = (units[i].HP - 1);
-	}
+	int doveCount=0;
+	int hawkCount=0;
+	for (i=0;i<5;i++)
+	bornDove(doves,doveCount);
+	printf("%d", doveCount);
+	getchar();	
 
-}
-
-
-int eat(int *C) {
-	int i,K,j,r,n,k;
-	k=*C;
-	k++;
-	*C=k;
-	commonpower = (int*)realloc(commonpower, (unitCount+1)*sizeof(int));
-	for (i = 0; i<k; i++) {
-		memset(commonpower, 0, k);
-	}
-	for (i = 0; i < foodCount; i++) {
-		for (j = 0; j< unitCount; j++) {
-			if (food[i].x == units[j].x && food[i].y == units[j].y)
-			{
-				commonpower[j] = units[j].power;
-			}
-			//else continue;
-		}
-		//printf(" %d ", commonpower[1]);
-		max = commonpower[0];//Помещаем значения 1-го элемента
-		min = commonpower[0];//массива в переменные
-		for (r = 1; r<j; r++)
-		{
-			if (max < commonpower[r])
-				max = commonpower[r];
-			deg = r;
-			if (min > commonpower[r])
-				min = commonpower[r];
-		}
-		units[deg].HP = (units[deg].HP + 1);
-
-	}
-}
-
-
-int death() {
-	int i, j;
-
-	for (i = 0; i < unitCount; i++) {
-		if (units[i].HP == 0) {
-			for (j = i; j < unitCount; j++) {
-				units[j].x = units[j + 1].x;
-				units[j].y = units[j + 1].y;
-				units[j].power = units[j + 1].power;
-				units[j].HP = units[j + 1].HP;
-			}
-			unitCount -= 1;
-		}
-	}
-}
-int born() {
-	int i=0,j, hp = 20, p = 0, x = 0, y = 0;
-	for (j = 0; j < unitCount; j++) {
-		if (units[j].HP == 40) {
-			units = (TUnit*)realloc(units, 1 * sizeof(TUnit));
-			for (i = unitCount; i <= unitCount; i++) {
-				x = random();
-				y = random();
-				p = p + rand() % 10;
-				units[i].x = x;
-				units[i].y = y;
-				units[i].power = p;
-				units[i].HP = hp;
-				units[j].HP = hp;
-				unitCount++;
-			}
-		}
-	}
-}
-
-int main() {
-	int i, hp = 20, p = 0, x = 0, y = 0;
-	int C=0;
-	food = (TFood*)realloc(food, (foodCount + 1) * sizeof(TFood));
-	for (i = 0; i < foodCount; i++) {
-		x = random();
-		y = random();
-		food[i].x = x;
-		food[i].y = y;
-	}
-
-	units = (TUnit*)realloc(units, (unitCount + 1) * sizeof(TUnit));
-	for (i = 0; i < unitCount; i++) {
-		x = random();
-		y = random();
-		p = 0 + rand() % 10;
-		units[i].x = x;
-		units[i].y = y;
-		units[i].power = p;
-		units[i].HP = hp;
-	}
-
-	do {
-		CountStep++;
-		walk();//function of walking 
-		eat(&C);//function of eating
-		death();//
-		born();//
-		printf("%d\n", unitCount);
-		//random state of food
-		for (i = 0; i < foodCount; i++) {
-			food[i].x = random();
-			food[i].y = random();
-		}
-	} while (CountStep<steps);
-
-	printf("game for %d steps was ended with result counting of animals: %d", CountStep, unitCount);
-
-	getchar(); getchar();
 }
