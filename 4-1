@@ -10,32 +10,28 @@
 typedef struct {
 	int hp;
 	int power;
-	int position[2];  
 } TDove;
 
 typedef struct {
 	int hp;
 	int power;
-	int position[2];  
 } THawk;
 
-int bornDove(TDove *doves,int doveCount){
-	doves=(TDove*)realloc(doves,(doveCount+1)*sizeof(TDove));
-	memset(doves[doveCount].hp,100,sizeof(doves[doveCount].hp));
-	doveCount++;
-	return doveCount;
-}
 
 void bornHawk(THawk *hawks,int *hawkCount){
 	hawks=(THawk*)realloc(hawks,(*hawkCount+1)*sizeof(THawk));
 	*hawkCount++;
 }
 
-
-
 void deathDove(TDove *doves,int *doveCount){
+	int idoveCount;
+	idoveCount=*doveCount;
+	printf("Hp - %d Power - %d ",doves[idoveCount].hp,doves[idoveCount].power);
+	doves[idoveCount].hp=0;
+	doves[idoveCount].power=0;
 	doves=(TDove*)realloc(doves,(*doveCount-1)*sizeof(TDove));
-	*doveCount--;
+	idoveCount--;
+	*doveCount=idoveCount;
 }
 
 void deathHawk(THawk *hawks,int *hawkCount){
@@ -43,16 +39,33 @@ void deathHawk(THawk *hawks,int *hawkCount){
 	*hawkCount--;
 }
 
+
+void bornDove(TDove *doves,int *doveCount){
+	int idoveCount;
+	idoveCount=*doveCount;
+	doves=((TDove*)realloc(doves,(idoveCount+1)*sizeof(TDove)));
+	doves[idoveCount].hp=100;
+	doves[idoveCount].power=25;
+	printf("Hp - %d Power - %d \n",doves[idoveCount].hp,doves[idoveCount].power);
+	idoveCount++;
+	*doveCount=idoveCount;
+}
+
+
 void main(void)
 {
-	TDove *doves=NULL;
+	TDove *doves=0;
 	THawk *hawkp=NULL;
 	int i;
+	TDove *p;
 	int doveCount=0;
 	int hawkCount=0;
+	doves=((TDove*)realloc(doves,(doveCount)*sizeof(TDove)));
 	for (i=0;i<5;i++)
-	bornDove(doves,doveCount);
-	printf("%d", doveCount);
+	bornDove(doves,&doveCount);
+	deathDove(doves,&doveCount);
+	printf("Amount of doves - %d\n", doveCount);
+	printf("Hp of %dth dove is  - %d ",doveCount-doveCount,doves[0].hp);
 	getchar();	
-
+	free(doves);
 }
